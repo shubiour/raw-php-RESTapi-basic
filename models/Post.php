@@ -136,6 +136,35 @@ class Post
         printf("Error %s.\n", $statement->error);
         return false;
     }
+    //update single
+
+    public function updateSinglePost(){
+        //create query
+        $query = 'UPDATE posts
+        SET
+        title = :title
+        WHERE id = :id ';
+        $statement = $this->conn->prepare($query);
+
+        //clean data
+        $this->id = htmlspecialchars(strip_tags($this->id));
+        $this->title = htmlspecialchars(strip_tags($this->title));
+
+        $statement->bindValue(':title',$this->title);
+        $statement->bindValue(':id',$this->id);
+
+
+        //execute query
+        if($statement->execute()){
+            return true;
+        }
+
+        //Print error if something goes wrong
+        printf("Error %s.\n", $statement->error);
+        return false;
+
+    }
+
     //delete post
     public function deletePost(){
         //create query

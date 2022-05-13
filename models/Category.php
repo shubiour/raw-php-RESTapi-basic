@@ -97,6 +97,31 @@ class Category
         printf("Error %s.\n", $statement->error);
         return false;
     }
+
+    //update single category
+    public function updateSinglePost(){
+        $query = 'UPDATE categories
+                SET
+                name = :category_name
+                WHERE id =:category_id';
+        $statement = $this->conn->prepare($query);
+
+        //clean data
+        $this->category_name = htmlspecialchars(strip_tags($this->category_name));
+
+        $statement->bindValue(':category_name',$this->category_name);
+        $statement->bindValue(':category_id',$this->id);
+        
+
+        //execute query
+        if($statement->execute()){
+            return true;
+        }
+
+        //Print error if something goes wrong
+        printf("Error %s.\n", $statement->error);
+        return false;
+    }
     //delete
     public function deleteCategory(){
         //create query
